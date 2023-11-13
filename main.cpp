@@ -6,8 +6,12 @@ using namespace std;
 int main() {
     ReadData data;
     data.loadData();
-   data.printGenresMap();
- //  data.printData();
+ //  data.printGenresMap();
+     data.printData();
+
+
+
+
 
     return 0;
 }

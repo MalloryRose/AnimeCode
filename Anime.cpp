@@ -4,13 +4,14 @@ Anime::Anime()
 {
 }
 
-Anime::Anime(int id, string name, string rating, vector<string> genres, string episodes)
+Anime::Anime(int id, string name, int rating, vector<string> genres, int episodes, float normEpisodes)
 {
 	this->id = id;
 	this->name = name;
 	this->rating = rating;
 	this->genres = genres;
 	this->episodes = episodes;
+    this->normEpisodes = normEpisodes;
 }
 
 Anime::~Anime()

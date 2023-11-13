@@ -12,13 +12,14 @@ class Anime
 public:
 	int id;
 	string name;
-	string rating;
+	int rating;
 	vector<string> genres;
-	string episodes;
+	int episodes;
+    float normEpisodes; // normalized value for episodes
 
 	Anime();
 	~Anime();
-	Anime(int id, string name, string rating, vector<string> genres, string episodes);
+	Anime(int id, string name, int rating, vector<string> genres, int episodes, float normEpisodes);
 
 
 };

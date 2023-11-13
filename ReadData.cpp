@@ -76,7 +76,7 @@ void ReadData::loadData()
                     scores.push_back(value);
 
 
-                    anime->rating = value;
+                    anime->rating = stoi(value);
 
                     char ch;
 
@@ -115,7 +115,9 @@ void ReadData::loadData()
                     std::getline(ss, value, ',');
                     value.erase(0, value.find_first_not_of(' '));
                     episodes.push_back(value);
-                    anime->episodes = value;
+                    anime->episodes = stoi(value);
+
+
 
                     animeObj.push_back(anime);
 
@@ -129,7 +131,7 @@ void ReadData::loadData()
             
         }
 
-
+        normalizeEpisodes();
 
         // Close the file
         file.close();
@@ -162,7 +164,8 @@ void ReadData::printData()
         }
         cout << " | ";
         
-        std::cout << "Episodes: " << animeObj[i]->episodes << std::endl;
+        std::cout << "Episodes: " << animeObj[i]->episodes << " | ";
+        std::cout << "Normalized Episode Value: " << animeObj[i]->normEpisodes << std::endl;
 
     }
     
@@ -196,4 +199,44 @@ ReadData::~ReadData()
         delete animeObj[i];
     }
     animeObj.clear(); // Clear the vector to remove the pointers
+}
+
+float ReadData::normalizedValue(float val, float min, float max) {
+    return (val - min) / (max - min);
+
+}
+
+int ReadData::findMaxEpisodes() {
+    int max = 0;
+
+    for (int i = 0; i < animeObj.size(); i++) {
+        if(animeObj[i]->episodes > max){
+            max = animeObj[i]->episodes;
+        }
+    }
+
+    return max;
+
+}
+
+int ReadData::findMinEpisodes() {
+    int min = 1000;
+
+    for (int i = 0; i < animeObj.size(); i++) {
+        if(animeObj[i]->episodes < min){
+            min = animeObj[i]->episodes;
+
+        }
+    }
+    return min;
+}
+
+void ReadData::normalizeEpisodes() {
+    int minEpisodes = findMinEpisodes();
+    int maxEpisodes = findMaxEpisodes();
+    for (int i = 0; i < animeObj.size(); i++) {
+       animeObj[i]->normEpisodes = normalizedValue(animeObj[i]->episodes, minEpisodes, maxEpisodes);
+
+    }
+
 }
