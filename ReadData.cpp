@@ -152,6 +152,23 @@ void ReadData::loadData()
 
 }
 
+void ReadData::printAnimeInfo(Anime* anime) {
+        std::cout << "ID: " << anime->id << " | ";
+        std::cout << "Name: " << anime->name << " | ";
+        std::cout << "Score: " << anime->rating << " | ";
+        cout << "Genres: ";
+        for (int j = 0; j < anime->genres.size(); j++) {
+            std::cout  << anime->genres[j] << " ";
+        }
+        cout << " | ";
+        std::cout << "Episodes: " << anime->episodes << " | ";
+        std::cout << "Normalized Episode Value: " << anime->normEpisodes << std::endl;
+
+
+
+
+}
+
 void ReadData::printData()
 {
     for (int i = 0; i < animeObj.size(); i++) {

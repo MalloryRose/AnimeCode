@@ -10,8 +10,8 @@ using namespace std;
 int main() {
     ReadData data;
     data.loadData();
-   data.printGenresMap();
-     //data.printData();
+  // data.printGenresMap();
+ //    data.printData();
 
      RecommendAnime recommendations;
 
@@ -26,7 +26,8 @@ int main() {
          {
             inputtedAnime = data.animeList[inputtedAnimeString];
             inputtedAnimes.push_back(inputtedAnime);
-            cout << inputtedAnimes.at(0)->name << endl;
+            data.printAnimeInfo(inputtedAnime);
+
          }
          else if(inputtedAnimeString == "exit")
          {
@@ -44,9 +45,6 @@ int main() {
             }
          }
      }
-
-
-
 
 
 
