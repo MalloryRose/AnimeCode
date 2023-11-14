@@ -10,6 +10,7 @@ class ReadData
 public:
     int genresIndex = 0;
     vector<Anime*> animeObj;
+    map<string, Anime*> animeList;
     map<string, int> genresMap; // storing all the genres as integers
 
     // loading and printing

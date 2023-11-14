@@ -120,7 +120,7 @@ void ReadData::loadData()
 
 
                     animeObj.push_back(anime);
-
+                    animeList.emplace(anime->name, anime);
                 }
                 
 
