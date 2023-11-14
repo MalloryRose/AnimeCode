@@ -12,6 +12,6 @@ class RecommendAnime
         {
 public:
             void printRecommendations(float normalizedEpisodes, float normalizedRating,
-                                      unordered_map<string, int> inputtedGenres);
+                                      vector<string> inputtedGenres);
             void calculateRecommendations(vector<Anime*> inputtedAnimes);
         };

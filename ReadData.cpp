@@ -76,7 +76,7 @@ void ReadData::loadData()
                     scores.push_back(value);
 
 
-                    anime->rating = stoi(value);
+                    anime->rating = stof(value);
 
                     char ch;
 

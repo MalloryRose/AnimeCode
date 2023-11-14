@@ -27,7 +27,6 @@ int main() {
             inputtedAnime = data.animeList[inputtedAnimeString];
             inputtedAnimes.push_back(inputtedAnime);
             data.printAnimeInfo(inputtedAnime);
-
          }
          else if(inputtedAnimeString == "exit")
          {
@@ -39,10 +38,7 @@ int main() {
          }
          if(inputtedAnimes.size() >= 3)
          {
-            for(int i = 0; i < inputtedAnimes.size(); i++)
-            {
-                //recommendations.calculateRecommendations(inputtedAnimes);
-            }
+             recommendations.calculateRecommendations(inputtedAnimes);
          }
      }
 

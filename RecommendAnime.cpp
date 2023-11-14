@@ -6,7 +6,7 @@
 
 void RecommendAnime::calculateRecommendations(vector<Anime *> inputtedAnimes)
 {
-    unordered_map<string, int> inputtedShowGenres;
+    vector<string> inputtedShowGenres;
     float normalizedGenre;
     float normalizedRating;
     float normalizedEpisodeCount;
@@ -15,19 +15,19 @@ void RecommendAnime::calculateRecommendations(vector<Anime *> inputtedAnimes)
         normalizedRating += inputtedAnimes.at(i)->rating;
         for(int j = 0; j < inputtedAnimes.at(i)->genres.size(); j++)
         {
-            inputtedShowGenres.emplace(inputtedAnimes.at(i)->genres.at(j), 0);
+            inputtedShowGenres.push_back(inputtedAnimes.at(i)->genres.at(j));
         }
         normalizedEpisodeCount += inputtedAnimes.at(i)->normEpisodes;
     }
-    printRecommendations(normalizedEpisodeCount, normalizedRating, inputtedShowGenres);
+    normalizedRating = normalizedRating / inputtedAnimes.size();
+    normalizedEpisodeCount = normalizedEpisodeCount / inputtedAnimes.size();
+    cout << normalizedEpisodeCount << endl;
+    cout << normalizedRating << endl;
+    //printRecommendations(normalizedEpisodeCount, normalizedRating, inputtedShowGenres);
 }
 
 void
-RecommendAnime::printRecommendations(float normalizedEpisodes, float normalizedRating, unordered_map<string, int> inputtedGenres)
+RecommendAnime::printRecommendations(float normalizedEpisodes, float normalizedRating, vector<string> inputtedGenres)
 {
-    int genreCount = 0;
-    for(const auto& genre : inputtedGenres)
-    {
 
-    }
 }
