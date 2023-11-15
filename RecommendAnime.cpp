@@ -3,6 +3,7 @@
 //
 
 #include "RecommendAnime.h"
+ReadData data1;
 
 void RecommendAnime::calculateRecommendations(vector<Anime *> inputtedAnimes)
 {
@@ -29,5 +30,16 @@ void RecommendAnime::calculateRecommendations(vector<Anime *> inputtedAnimes)
 void
 RecommendAnime::printRecommendations(float normalizedEpisodes, float normalizedRating, vector<string> inputtedGenres)
 {
+    //recommendationPrioritizations[0] = genre
+    //recommendationPrioritizations[1] = rating
+    //recommendationPrioritizations[2] = episodeCount
+    vector<Anime*> recommendationList;
+    if(recommendationPrioritizations[0])
+    {
+        for(int i = 0; i < data1.animeObj.size(); i++)
+        {
 
+        }
+    }
 }
+

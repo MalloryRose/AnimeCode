@@ -14,4 +14,5 @@ public:
             void printRecommendations(float normalizedEpisodes, float normalizedRating,
                                       vector<string> inputtedGenres);
             void calculateRecommendations(vector<Anime*> inputtedAnimes);
+            bool recommendationPrioritizations[3];
         };

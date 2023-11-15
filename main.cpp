@@ -13,8 +13,8 @@ int main() {
   // data.printGenresMap();
  //    data.printData();
 
-     RecommendAnime recommendations;
 
+     RecommendAnime recommendations;
      vector<Anime*> inputtedAnimes;
      string inputtedAnimeString;
      Anime* inputtedAnime;
@@ -32,13 +32,43 @@ int main() {
          {
              break;
          }
+         else if(inputtedAnimeString == "show recommendations")
+         {
+             if(inputtedAnimes.size() <= 3)
+             {
+                 cout << "not enough data" << endl;
+                 continue;
+             }
+             string response;
+             bool prioritizeGenre = false;
+             bool prioritizeEpisodeCount = false;
+             bool prioritizeRating = false;
+             cout << "Do you want to prioritize Genre" << endl;
+             cin >> response;
+             if(response == "yes")
+             {
+                 prioritizeGenre = true;
+             }
+            cout << "Do you want to prioritize Episode Count" << endl;
+            cin >> response;
+            if(response == "yes")
+            {
+                prioritizeEpisodeCount = true;
+            }
+            cout << "Do you want to prioritize Rating" << endl;
+            cin >> response;
+            if(response == "yes")
+            {
+                prioritizeRating = true;
+            }
+            recommendations.recommendationPrioritizations[0] = prioritizeGenre;
+            recommendations.recommendationPrioritizations[1] = prioritizeRating;
+            recommendations.recommendationPrioritizations[2] = prioritizeEpisodeCount;
+            recommendations.calculateRecommendations(inputtedAnimes);
+         }
          else
          {
              cout << "anime does not exist" << endl;
-         }
-         if(inputtedAnimes.size() >= 3)
-         {
-             recommendations.calculateRecommendations(inputtedAnimes);
          }
      }
 
