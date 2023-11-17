@@ -11,8 +11,14 @@
 class RecommendAnime
         {
 public:
+            ReadData data1;
+            bool recommendationPrioritizations[3];
+            RecommendAnime();
+            void printAnimeInfo(Anime* anime);
             void printRecommendations(float normalizedEpisodes, float normalizedRating,
                                       vector<string> inputtedGenres);
             void calculateRecommendations(vector<Anime*> inputtedAnimes);
-            bool recommendationPrioritizations[3];
+            vector<Anime*> getAnimeWithSameGenre(vector<string> inputtedGenres);
+            float getOverallWeight(float normalizedEpisodes, float normalizedRating, float epWeight, float ratingWeight);
+
         };

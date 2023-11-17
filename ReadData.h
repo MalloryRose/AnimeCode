@@ -18,7 +18,7 @@ public:
     void normalizeEpisodes(); // automatically create normalized values for episodes once data is loaded
     void printData();
     void printGenresMap(); // for testing
-    void printAnimeInfo(Anime* anime);
+    static void printAnimeInfo(Anime* anime);
 
     void addGenre(string genre); // function to add a genre to the map of genres as integers
     int getNumGenres();
