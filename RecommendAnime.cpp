@@ -28,19 +28,16 @@ void RecommendAnime::calculateRecommendations(vector<Anime *> inputtedAnimes)
     }
     normalizedRating = normalizedRating / inputtedAnimes.size();
     normalizedEpisodeCount = normalizedEpisodeCount / inputtedAnimes.size();
-   // cout << normalizedEpisodeCount << endl;
-   // cout << normalizedRating << endl;
-    printRecommendations(normalizedEpisodeCount, normalizedRating, inputtedShowGenres);
+
+    printRecommendations(normalizedEpisodeCount, normalizedRating, inputtedShowGenres, inputtedAnimes);
 }
 
 void
-RecommendAnime::printRecommendations(float normalizedEpisodes, float normalizedRating, vector<string> inputtedGenres)
+RecommendAnime::printRecommendations(float normalizedEpisodes, float normalizedRating, vector<string> inputtedGenres, vector<Anime *> inputtedAnimes)
 {
     //recommendationPrioritizations[0] = genre
     //recommendationPrioritizations[1] = rating
     //recommendationPrioritizations[2] = episodeCount
-
-
 
     vector<Anime*> recommendationList;
     float weight1;
@@ -51,7 +48,7 @@ RecommendAnime::printRecommendations(float normalizedEpisodes, float normalizedR
     if(recommendationPrioritizations[0] &&  !recommendationPrioritizations[1] && !recommendationPrioritizations[2])
     { // Only genre was selected as preference in this scenario
         weight1 = getOverallWeight(normalizedEpisodes, normalizedRating, 0.5, 0.5);
-        recommendationList = getAnimeWithSameGenre(inputtedGenres);
+        recommendationList = getAnimeWithSameGenre(inputtedAnimes, inputtedGenres);
          for(int i = 0; i < recommendationList.size(); i++){
              weight2 = getOverallWeight(recommendationList[i]->normEpisodes, recommendationList[i]->rating, 0.5, 0.5);
              compareWeights = abs(weight2 - weight1);
@@ -67,26 +64,17 @@ RecommendAnime::printRecommendations(float normalizedEpisodes, float normalizedR
              }
              first = false;
              compareWeightsOld = compareWeights;
-
-
-
-
          }
-
     }
-
 
     for(int i = 0; i < 10; i++){
         ReadData::printAnimeInfo(recommendationList[i]);
     }
 
-
 }
 
 
-
-
-vector<Anime *> RecommendAnime::getAnimeWithSameGenre(vector<string> inputtedGenres) {
+vector<Anime *> RecommendAnime::getAnimeWithSameGenre(vector<Anime *> inputtedAnimes,vector<string> inputtedGenres) {
     vector<Anime*> recommendationList;
     for(int i = 0; i < data1.animeObj.size(); i++)
     {
@@ -96,8 +84,16 @@ vector<Anime *> RecommendAnime::getAnimeWithSameGenre(vector<string> inputtedGen
         bool isSubset = std::includes(inputtedGenres.begin(), inputtedGenres.end(), data1.animeObj[i]->genres.begin(), data1.animeObj[i]->genres.end());
 
         if(isSubset){
-            recommendationList.push_back(data1.animeObj[i]);
-
+            bool isRepeat = false;
+            for(int j = 0; j < inputtedAnimes.size(); j++){
+                if(inputtedAnimes[j]->id == data1.animeObj[i]->id){
+                    isRepeat = true;
+                    break;
+                }
+            }
+            if(!isRepeat){
+                recommendationList.push_back(data1.animeObj[i]);
+            }
         }
     }
     return recommendationList;
