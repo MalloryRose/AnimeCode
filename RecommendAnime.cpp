@@ -13,7 +13,7 @@ RecommendAnime::RecommendAnime() {
 
 
 
-void RecommendAnime::calculateRecommendations(vector<Anime *> inputtedAnimes)
+void RecommendAnime::calculateRecommendations(vector<Anime *> inputtedAnimes, int numRecommendations)
 {
     vector<string> inputtedShowGenres;
     float normalizedGenre;
@@ -31,11 +31,11 @@ void RecommendAnime::calculateRecommendations(vector<Anime *> inputtedAnimes)
     normalizedRating = normalizedRating / inputtedAnimes.size();
     normalizedEpisodeCount = normalizedEpisodeCount / inputtedAnimes.size();
 
-    printRecommendations(normalizedEpisodeCount, normalizedRating, inputtedShowGenres, inputtedAnimes);
+    printRecommendations(normalizedEpisodeCount, normalizedRating, inputtedShowGenres, inputtedAnimes, numRecommendations);
 }
 
 void
-RecommendAnime::printRecommendations(float normalizedEpisodes, float normalizedRating, vector<string> inputtedGenres, vector<Anime *> inputtedAnimes)
+RecommendAnime::printRecommendations(float normalizedEpisodes, float normalizedRating, vector<string> inputtedGenres, vector<Anime *> inputtedAnimes, int numRecommendations)
 {
     //recommendationPrioritizations[0] = genre
     //recommendationPrioritizations[1] = rating
@@ -64,7 +64,7 @@ RecommendAnime::printRecommendations(float normalizedEpisodes, float normalizedR
         quickSort(recommendationList, 0, recommendationList.size() - 1);
 
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < numRecommendations; i++) {
             ReadData::printAnimeInfo(recommendationList[i]);
         }
     }

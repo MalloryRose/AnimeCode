@@ -64,25 +64,30 @@ int main() {
                  cout << "not enough data" << endl;
                  continue;
              }*/
-             string response;
+            int numRecommendations;
+            string response;
+            cout << "How many recommendations?" << endl;
+            getline(cin, response);
+            numRecommendations = stoi(response);
+
              bool prioritizeGenre = false;
              bool prioritizeEpisodeCount = false;
              bool prioritizeRating = false;
-             cout << "Do you want to prioritize Genre" << endl;
+             cout << "Do you want to prioritize Genre? (yes/no)" << endl;
              getline(cin, response);
-             if(response == "yes")
+             if(response == "yes" || response == "Yes")
              {
                  prioritizeGenre = true;
              }
-            cout << "Do you want to prioritize Episode Count" << endl;
+            cout << "Do you want to prioritize Episode Count? (yes/no)" << endl;
              getline(cin, response);
-            if(response == "yes")
+            if(response == "yes" || response == "Yes")
             {
                 prioritizeEpisodeCount = true;
             }
-            cout << "Do you want to prioritize Rating" << endl;
+            cout << "Do you want to prioritize Rating? (yes/no)" << endl;
             getline(cin, response);
-            if(response == "yes")
+            if(response == "yes" || response == "Yes")
             {
                 prioritizeRating = true;
             }
@@ -90,7 +95,7 @@ int main() {
             recommendations.recommendationPrioritizations[1] = prioritizeRating;
             recommendations.recommendationPrioritizations[2] = prioritizeEpisodeCount;
             cout << "Number of Animes inputted: " << inputtedAnimes.size() << endl;
-            recommendations.calculateRecommendations(inputtedAnimes);
+            recommendations.calculateRecommendations(inputtedAnimes, numRecommendations);
          }
          else
          {
