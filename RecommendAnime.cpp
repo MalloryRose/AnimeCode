@@ -75,6 +75,9 @@ RecommendAnime::printRecommendations(float normalizedEpisodes, float normalizedR
 
 
 vector<Anime *> RecommendAnime::getAnimeWithSameGenre(vector<Anime *> inputtedAnimes,vector<string> inputtedGenres) {
+
+    // this will return a list of all animes that contain the genres found in the input genres parameter.
+
     vector<Anime*> recommendationList;
     for(int i = 0; i < data1.animeObj.size(); i++)
     {
