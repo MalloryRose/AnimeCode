@@ -12,7 +12,6 @@ void ReadData::loadData()
 	ifstream file("anime-dataset-2023.csv", ios::in | ios_base::binary);
 
 	if (file.is_open()) {
-		cout << "file opened" << endl;
 
         vector<string> ids;
         vector<string> names;
@@ -20,6 +19,7 @@ void ReadData::loadData()
         vector<string> genres;
         vector<string> episodes;
         bool unknown;
+        bool twoQuotes;
         // Read and process each line in the CSV file
         std::string line;
         bool firstLine = true;
@@ -38,6 +38,11 @@ void ReadData::loadData()
                 } else{
                     unknown = false;
                 }
+                if(content.find("\"\"") != std::string::npos){
+                    twoQuotes = true;
+                } else{
+                    twoQuotes = false;
+                }
 
                 if(!unknown){
                     Anime* anime = new Anime;
@@ -49,7 +54,7 @@ void ReadData::loadData()
                     char check;
                     stack<char> stk;
 
-                    // must check if it has quotes. if it doesn't, there's only one genre
+
                     ss.get(check);
                     if (check != '"'){
                         std::getline(ss, value, ',');
@@ -118,9 +123,10 @@ void ReadData::loadData()
                     anime->episodes = stoi(value);
 
 
-
-                    animeObj.push_back(anime);
-                    animeList.emplace(anime->name, anime);
+                    if(!twoQuotes){
+                        animeObj.push_back(anime);
+                        animeList.emplace(anime->name, anime);
+                    }
                 }
                 
 

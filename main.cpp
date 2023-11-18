@@ -10,6 +10,7 @@ using namespace std;
 int main() {
     ReadData data;
     data.loadData();
+
   // data.printGenresMap();
  //    data.printData();
 
@@ -34,11 +35,11 @@ int main() {
          }
          else if(inputtedAnimeString == "show recommendations")
          {
-             if(inputtedAnimes.size() <= 3)
+            /* if(inputtedAnimes.size() <= 3)
              {
                  cout << "not enough data" << endl;
                  continue;
-             }
+             }*/
              string response;
              bool prioritizeGenre = false;
              bool prioritizeEpisodeCount = false;
