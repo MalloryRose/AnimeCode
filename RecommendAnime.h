@@ -21,4 +21,13 @@ public:
             vector<Anime*> getAnimeWithSameGenre(vector<Anime *> inputtedAnimes, vector<string> inputtedGenres);
             float getOverallWeight(float normalizedEpisodes, float normalizedRating, float epWeight, float ratingWeight);
 
+            // sorting algorithm
+           // low  --> Starting index,
+           // high  --> Ending index
+
+            void swap(vector<Anime*> &vect, int i, int j);
+            void quickSort(vector<Anime*> &vect, int low, int high);
+            int partition(vector<Anime*> &vect, int low, int high);
+
+
         };

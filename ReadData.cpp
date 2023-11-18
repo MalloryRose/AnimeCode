@@ -168,7 +168,8 @@ void ReadData::printAnimeInfo(Anime* anime) {
         }
         cout << " | ";
         std::cout << "Episodes: " << anime->episodes << " | ";
-        std::cout << "Normalized Episode Value: " << anime->normEpisodes << std::endl;
+        std::cout << "Weight: " << anime->weight  << " | ";
+        std::cout << "Comparison Weight: " << anime->compareWeight << std::endl;
 
 
 
@@ -188,7 +189,7 @@ void ReadData::printData()
         cout << " | ";
         
         std::cout << "Episodes: " << animeObj[i]->episodes << " | ";
-        std::cout << "Normalized Episode Value: " << animeObj[i]->normEpisodes << std::endl;
+
 
     }
     

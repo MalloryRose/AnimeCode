@@ -16,10 +16,12 @@ public:
 	vector<string> genres;
 	int episodes;
     float normEpisodes; // normalized value for episodes
+    float weight;
+    float compareWeight;
 
 	Anime();
 	~Anime();
-	Anime(int id, string name, float rating, vector<string> genres, int episodes, float normEpisodes);
+	Anime(int id, string name, float rating, vector<string> genres, int episodes, float normEpisodes, float weight, float compareWeight);
 
 
 };

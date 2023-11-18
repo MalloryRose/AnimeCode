@@ -47,30 +47,26 @@ RecommendAnime::printRecommendations(float normalizedEpisodes, float normalizedR
     float compareWeights;
     float compareWeightsOld;
     bool first = true;
-    if(recommendationPrioritizations[0] &&  !recommendationPrioritizations[1] && !recommendationPrioritizations[2])
-    { // Only genre was selected as preference in this scenario
+    if(recommendationPrioritizations[0] &&  !recommendationPrioritizations[1] && !recommendationPrioritizations[2]) { // Only genre was selected as preference in this scenario
         weight1 = getOverallWeight(normalizedEpisodes, normalizedRating, 0.5, 0.5);
+        cout << "Overall weight based on input: " << weight1 << endl;
         recommendationList = getAnimeWithSameGenre(inputtedAnimes, inputtedGenres);
-         for(int i = 0; i < recommendationList.size(); i++){
-             weight2 = getOverallWeight(recommendationList[i]->normEpisodes, recommendationList[i]->rating, 0.5, 0.5);
-             compareWeights = abs(weight2 - weight1);
-             // smaller value means better recommendation
-             if(!first){
-                 if(compareWeights < compareWeightsOld){
-                     // swap
-                     Anime* temp = recommendationList[i -1];
-                     recommendationList[i-1] = recommendationList[i];
-                     recommendationList[i] = temp;
+        for (int i = 0; i < recommendationList.size(); i++) {
+            weight2 = getOverallWeight(recommendationList[i]->normEpisodes, recommendationList[i]->rating, 0.5, 0.5);
+            recommendationList[i]->weight = weight2;
+            compareWeights = abs(weight2 - weight1);
+            recommendationList[i]->compareWeight = compareWeights;
+            // smaller value means better recommendation
 
-                 }
-             }
-             first = false;
-             compareWeightsOld = compareWeights;
-         }
-    }
 
-    for(int i = 0; i < 10; i++){
-        ReadData::printAnimeInfo(recommendationList[i]);
+        }
+        // sort the compareWeights in ascending order
+        quickSort(recommendationList, 0, recommendationList.size() - 1);
+
+
+        for (int i = 0; i < 10; i++) {
+            ReadData::printAnimeInfo(recommendationList[i]);
+        }
     }
 
 }
@@ -108,6 +104,53 @@ float
 RecommendAnime::getOverallWeight(float normalizedEpisodes, float normalizedRating, float epWeight, float ratingWeight) {
     return (epWeight * normalizedEpisodes) + (ratingWeight * normalizedRating);
 
+}
+
+void RecommendAnime::swap(vector<Anime*> &vect, int i, int j) {
+    Anime* temp = vect[i];
+    vect[i] = vect[j];
+    vect[j] = temp;
+}
+
+
+int RecommendAnime::partition(vector<Anime*> &vect, int low, int high) {
+    // pivot is choosen as the last element
+    float pivot = vect[high]->compareWeight;
+
+    // Index of smaller element
+    int i = (low - 1);
+
+    for (int j = low; j < high; j++) {
+        if (vect[j]->compareWeight <= pivot) {
+            // If current element is smaller than or
+            // equal to pivot
+            i++;
+
+            // swap arr[i] and arr[j]
+            swap(vect, i, j);
+        }
+    }
+
+    // Swap the pivot element with arr[i + 1]
+    swap(vect, i+1, high);
+
+    // Return the position from where partition
+    // is done
+    return (i + 1);
+
+}
+
+void RecommendAnime::quickSort(vector<Anime*> &vect, int low, int high) {
+    if (low < high) {
+        /* pi is the partitioning index, arr[pi] is
+           now at right place */
+        int pi = partition(vect, low, high);
+
+        // Separately sort elements before
+        // partition and after partition
+        quickSort(vect, low, pi - 1);
+        quickSort(vect, pi + 1, high);
+    }
 }
 
 
