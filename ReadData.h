@@ -27,6 +27,7 @@ public:
     float normalizedValue(float val, float min, float max); // normalizing the values for a user's preferred rating
     int findMaxEpisodes();
     int findMinEpisodes();
+
     ~ReadData();
    
 };

@@ -11,6 +11,8 @@ RecommendAnime::RecommendAnime() {
     data1.loadData();
 }
 
+
+
 void RecommendAnime::calculateRecommendations(vector<Anime *> inputtedAnimes)
 {
     vector<string> inputtedShowGenres;
