@@ -28,6 +28,7 @@ public:
             void swap(vector<Anime*> &vect, int i, int j);
             void quickSort(vector<Anime*> &vect, int low, int high);
             int partition(vector<Anime*> &vect, int low, int high);
+            void compare(vector<Anime*> &vect, float epWeight, float ratingWeight, float weight1);
 
 
         };

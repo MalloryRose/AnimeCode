@@ -47,27 +47,72 @@ RecommendAnime::printRecommendations(float normalizedEpisodes, float normalizedR
     float compareWeights;
     float compareWeightsOld;
     bool first = true;
-    if(recommendationPrioritizations[0] &&  !recommendationPrioritizations[1] && !recommendationPrioritizations[2]) { // Only genre was selected as preference in this scenario
-        weight1 = getOverallWeight(normalizedEpisodes, normalizedRating, 0.5, 0.5);
-        cout << "Overall weight based on input: " << weight1 << endl;
-        recommendationList = getAnimeWithSameGenre(inputtedAnimes, inputtedGenres);
-        for (int i = 0; i < recommendationList.size(); i++) {
-            weight2 = getOverallWeight(recommendationList[i]->normEpisodes, recommendationList[i]->rating, 0.5, 0.5);
-            recommendationList[i]->weight = weight2;
-            compareWeights = abs(weight2 - weight1);
-            recommendationList[i]->compareWeight = compareWeights;
-            // smaller value means better recommendation
+    if(recommendationList[0]){
+        // genre selected
+        if(!recommendationPrioritizations[1] && !recommendationPrioritizations[2] || recommendationPrioritizations[1] && !recommendationPrioritizations[2]){
+            // only genre or all three selected
+            // weight them  the same
+            weight1 = getOverallWeight(normalizedEpisodes, normalizedRating, 0.5, 0.5);
+            cout << "Overall weight based on input: " << weight1 << endl;
+            recommendationList = getAnimeWithSameGenre(inputtedAnimes, inputtedGenres);
+            compare(recommendationList, 0.5, 0.5, weight1);
+            // sort the compareWeights in ascending order
+            quickSort(recommendationList, 0, recommendationList.size() - 1);
 
+            for (int i = 0; i < numRecommendations; i++) {
+                ReadData::printAnimeInfo(recommendationList[i]);
+            }
 
+        } else if(!recommendationPrioritizations[1] && recommendationPrioritizations[2]){
+            //episode and genre
+            cout << "Input normalized episode: " << normalizedEpisodes << endl;
+            weight1 = getOverallWeight(normalizedEpisodes, normalizedRating, 0.9, 0.1);
+            cout << "Overall weight based on input: " << weight1 << endl;
+            cout << "Input normalized rating: " << normalizedRating << endl;
+            recommendationList = getAnimeWithSameGenre(inputtedAnimes, inputtedGenres);
+            compare(recommendationList, 0.9, 0.1, weight1);
+            quickSort(recommendationList, 0, recommendationList.size() - 1);
+
+            for (int i = 0; i < numRecommendations; i++) {
+                ReadData::printAnimeInfo(recommendationList[i]);
+            }
+
+        } else if( recommendationPrioritizations[1] && !recommendationPrioritizations[2]){
+            // genre and rating
+            weight1 = getOverallWeight(normalizedEpisodes, normalizedRating, 0.4, 0.6);
+            cout << "Overall weight based on input: " << weight1 << endl;
+            recommendationList = getAnimeWithSameGenre(inputtedAnimes, inputtedGenres);
+            compare(recommendationList, 0.4, 0.6, weight1);
+            quickSort(recommendationList, 0, recommendationList.size() - 1);
+
+            for (int i = 0; i < numRecommendations; i++) {
+                ReadData::printAnimeInfo(recommendationList[i]);
+            }
         }
-        // sort the compareWeights in ascending order
-        quickSort(recommendationList, 0, recommendationList.size() - 1);
+
+        // genre not selected
 
 
-        for (int i = 0; i < numRecommendations; i++) {
-            ReadData::printAnimeInfo(recommendationList[i]);
-        }
+    } else if(!recommendationPrioritizations[1] && !recommendationPrioritizations[2]){
+        // none selected as preference
+
+
+
+    } else if(!recommendationPrioritizations[1] && recommendationPrioritizations[2]){
+        // only episode selected
+
+    } else if( recommendationPrioritizations[1] && !recommendationPrioritizations[2]){
+        // only rating
+
+    } else{
+       // ep and rating selected
+
+
+
     }
+
+
+
 
 }
 
@@ -151,6 +196,17 @@ void RecommendAnime::quickSort(vector<Anime*> &vect, int low, int high) {
         quickSort(vect, low, pi - 1);
         quickSort(vect, pi + 1, high);
     }
+}
+
+void RecommendAnime::compare(vector<Anime *> &vect, float epWeight, float ratingWeight, float weight1) {
+    for (int i = 0; i < vect.size(); i++) {
+        float weight2 = getOverallWeight(vect[i]->normEpisodes, vect[i]->rating, epWeight, ratingWeight);
+        vect[i]->weight = weight2;
+        float compareWeights = abs(weight2 - weight1);
+        vect[i]->compareWeight = compareWeights;
+        // smaller value means better recommendation
+    }
+
 }
 
 
