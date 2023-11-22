@@ -19,6 +19,7 @@ public:
                                       vector<string> inputtedGenres, vector<Anime *> inputtedAnimes, int numRecommendations);
             void calculateRecommendations(vector<Anime*> inputtedAnimes, int numRecommendations);
             vector<Anime*> getAnimeWithSameGenre(vector<Anime *> inputtedAnimes, vector<string> inputtedGenres);
+            vector<Anime*> getAnimeWithSimilarGenre(vector<Anime *> inputtedAnimes, vector<string> inputtedGenres);
             float getOverallWeight(float normalizedEpisodes, float normalizedRating, float epWeight, float ratingWeight);
 
             // sorting algorithm

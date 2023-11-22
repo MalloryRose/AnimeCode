@@ -4,6 +4,8 @@
 
 #include "RecommendAnime.h"
 #include <algorithm>
+#include <unordered_set>
+
 
 
 
@@ -35,26 +37,27 @@ void RecommendAnime::calculateRecommendations(vector<Anime *> inputtedAnimes, in
 }
 
 void
-RecommendAnime::printRecommendations(float normalizedEpisodes, float normalizedRating, vector<string> inputtedGenres, vector<Anime *> inputtedAnimes, int numRecommendations)
-{
+RecommendAnime::printRecommendations(float normalizedEpisodes, float normalizedRating, vector<string> inputtedGenres, vector<Anime *> inputtedAnimes, int numRecommendations) {
     //recommendationPrioritizations[0] = genre
     //recommendationPrioritizations[1] = rating
     //recommendationPrioritizations[2] = episodeCount
 
-    vector<Anime*> recommendationList;
+    vector<Anime *> recommendationList;
     float weight1;
     float weight2;
     float compareWeights;
     float compareWeightsOld;
     bool first = true;
-    if(recommendationList[0]){
+    if (recommendationPrioritizations[0]) {
         // genre selected
-        if(!recommendationPrioritizations[1] && !recommendationPrioritizations[2] || recommendationPrioritizations[1] && !recommendationPrioritizations[2]){
+        recommendationList = getAnimeWithSameGenre(inputtedAnimes, inputtedGenres);
+        if (!recommendationPrioritizations[1] && !recommendationPrioritizations[2] ||
+            recommendationPrioritizations[1] && !recommendationPrioritizations[2]) {
             // only genre or all three selected
             // weight them  the same
             weight1 = getOverallWeight(normalizedEpisodes, normalizedRating, 0.5, 0.5);
             cout << "Overall weight based on input: " << weight1 << endl;
-            recommendationList = getAnimeWithSameGenre(inputtedAnimes, inputtedGenres);
+            // set the recommendation list to only animes with the same genrees
             compare(recommendationList, 0.5, 0.5, weight1);
             // sort the compareWeights in ascending order
             quickSort(recommendationList, 0, recommendationList.size() - 1);
@@ -63,13 +66,12 @@ RecommendAnime::printRecommendations(float normalizedEpisodes, float normalizedR
                 ReadData::printAnimeInfo(recommendationList[i]);
             }
 
-        } else if(!recommendationPrioritizations[1] && recommendationPrioritizations[2]){
+        } else if (!recommendationPrioritizations[1] && recommendationPrioritizations[2]) {
             //episode and genre
             cout << "Input normalized episode: " << normalizedEpisodes << endl;
             weight1 = getOverallWeight(normalizedEpisodes, normalizedRating, 0.9, 0.1);
             cout << "Overall weight based on input: " << weight1 << endl;
             cout << "Input normalized rating: " << normalizedRating << endl;
-            recommendationList = getAnimeWithSameGenre(inputtedAnimes, inputtedGenres);
             compare(recommendationList, 0.9, 0.1, weight1);
             quickSort(recommendationList, 0, recommendationList.size() - 1);
 
@@ -77,11 +79,11 @@ RecommendAnime::printRecommendations(float normalizedEpisodes, float normalizedR
                 ReadData::printAnimeInfo(recommendationList[i]);
             }
 
-        } else if( recommendationPrioritizations[1] && !recommendationPrioritizations[2]){
+        } else if (recommendationPrioritizations[1] && !recommendationPrioritizations[2]) {
             // genre and rating
             weight1 = getOverallWeight(normalizedEpisodes, normalizedRating, 0.4, 0.6);
             cout << "Overall weight based on input: " << weight1 << endl;
-            recommendationList = getAnimeWithSameGenre(inputtedAnimes, inputtedGenres);
+
             compare(recommendationList, 0.4, 0.6, weight1);
             quickSort(recommendationList, 0, recommendationList.size() - 1);
 
@@ -90,28 +92,45 @@ RecommendAnime::printRecommendations(float normalizedEpisodes, float normalizedR
             }
         }
 
+
+
+
+    } else {
         // genre not selected
+        recommendationList = getAnimeWithSimilarGenre(inputtedAnimes, inputtedGenres);
+
+        if (!recommendationPrioritizations[1] && !recommendationPrioritizations[2]) {
+            // none selected as preference
 
 
-    } else if(!recommendationPrioritizations[1] && !recommendationPrioritizations[2]){
-        // none selected as preference
 
 
-
-    } else if(!recommendationPrioritizations[1] && recommendationPrioritizations[2]){
+    } else if (!recommendationPrioritizations[1] && recommendationPrioritizations[2]) {
         // only episode selected
+        cout << "Input normalized episode: " << normalizedEpisodes << endl;
+        weight1 = getOverallWeight(normalizedEpisodes, normalizedRating, 0.9, 0.1);
+        cout << "Overall weight based on input: " << weight1 << endl;
+        cout << "Input normalized rating: " << normalizedRating << endl;
 
-    } else if( recommendationPrioritizations[1] && !recommendationPrioritizations[2]){
+        compare(recommendationList, 0.9, 0.1, weight1);
+        quickSort(recommendationList, 0, recommendationList.size() - 1);
+
+        for (int i = 0; i < numRecommendations; i++) {
+            ReadData::printAnimeInfo(recommendationList[i]);
+        }
+
+
+    } else if (recommendationPrioritizations[1] && !recommendationPrioritizations[2]) {
         // only rating
 
-    } else{
-       // ep and rating selected
+    } else {
+        // ep and rating selected
 
 
+
+        }
 
     }
-
-
 
 
 }
@@ -120,6 +139,7 @@ RecommendAnime::printRecommendations(float normalizedEpisodes, float normalizedR
 vector<Anime *> RecommendAnime::getAnimeWithSameGenre(vector<Anime *> inputtedAnimes,vector<string> inputtedGenres) {
 
     // this will return a list of all animes that contain the genres found in the input genres parameter.
+    // used if genre is selected as preference
 
     vector<Anime*> recommendationList;
     for(int i = 0; i < data1.animeObj.size(); i++)
@@ -207,6 +227,30 @@ void RecommendAnime::compare(vector<Anime *> &vect, float epWeight, float rating
         // smaller value means better recommendation
     }
 
+}
+
+vector<Anime *>
+RecommendAnime::getAnimeWithSimilarGenre(vector<Anime *> inputtedAnimes, vector<string> inputtedGenres) {
+    // this will return a list of all animes that contain at least 1 genre found in the input genres parameter.
+    // Used if genre is NOT selected as preference.
+
+    unordered_set<string> inputGenresSet(inputtedGenres.begin(), inputtedGenres.end());
+    unordered_set<int> inputAnimesSet;
+    for (const auto& anime : inputtedAnimes) {
+        inputAnimesSet.insert(anime->id);
+    }
+
+    vector<Anime*> recommendationList;
+    for (const auto& anime : data1.animeObj) {
+        for (const auto& genre : anime->genres) {
+            if (inputGenresSet.count(genre) > 0 && inputAnimesSet.count(anime->id) == 0) {
+                recommendationList.push_back(anime);
+                break;  // No need to check other genres for this anime
+            }
+        }
+    }
+
+    return recommendationList;
 }
 
 
