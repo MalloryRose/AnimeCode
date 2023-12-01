@@ -7,13 +7,9 @@
 #include <unordered_set>
 
 
-
-
 RecommendAnime::RecommendAnime() {
     data1.loadData();
 }
-
-
 
 void RecommendAnime::calculateRecommendations(vector<Anime *> inputtedAnimes, int numRecommendations)
 {
