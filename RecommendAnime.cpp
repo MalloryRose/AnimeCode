@@ -81,7 +81,14 @@ RecommendAnime::printRecommendations(float normalizedEpisodes, float normalizedR
 
     }
 
-    quickSort(recommendationList, 0, recommendationList.size() - 1);
+    if(sortMethod == "quick"){
+        quickSort(recommendationList, 0, recommendationList.size() - 1);
+    } else if(sortMethod == "shell"){
+        shellSort(recommendationList);
+    } else{
+        cout << "No sorting method used" << endl;
+    }
+
     for (int i = 0; i < numRecommendations; i++) {
         ReadData::printAnimeInfo(recommendationList[i]);
     }
@@ -205,6 +212,25 @@ RecommendAnime::getAnimeWithSimilarGenre(vector<Anime *> inputtedAnimes, vector<
     }
 
     return recommendationList;
+}
+
+int RecommendAnime::shellSort(vector<Anime *> &vect) {
+    int n = vect.size();
+    for (int gap = n/2; gap > 0; gap /= 2)
+    {
+        for (int i = gap; i < n; i += 1)
+        {
+            Anime* temp = vect[i];
+
+            int j;
+            for (j = i; j >= gap && vect[j - gap]->compareWeight > temp->compareWeight; j -= gap)
+                vect[j] = vect[j - gap];
+
+            //  put temp (the original a[i]) in its correct location
+            vect[j] = temp;
+        }
+    }
+    return 0;
 }
 
 

@@ -15,6 +15,8 @@
 
 using namespace std;
 
+
+
 void menu(){
 
     cout << "Enter an option" << endl;
@@ -99,9 +101,23 @@ int main() {
             {
                 prioritizeRating = true;
             }
+            cout << "Which sorting method would you like to use?" << endl;
+
+            cout << "1. Quick sort" << endl;
+            cout << "2. Shell sort" << endl;
+            getline(cin, response);
+            string sortMethod;
+            if(response == "1"){
+                sortMethod = "quick";
+            } else if (response == "2"){
+                sortMethod = "shell";
+            } else{
+                cout << "Invalid." << endl;
+            }
             recommendations.recommendationPrioritizations[0] = prioritizeGenre;
             recommendations.recommendationPrioritizations[1] = prioritizeRating;
             recommendations.recommendationPrioritizations[2] = prioritizeEpisodeCount;
+            recommendations.sortMethod = sortMethod;
             cout << "Number of Animes inputted: " << inputtedAnimes.size() << endl;
             recommendations.calculateRecommendations(inputtedAnimes, numRecommendations);
          }

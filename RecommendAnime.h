@@ -13,6 +13,7 @@ class RecommendAnime
 public:
             ReadData data1;
             bool recommendationPrioritizations[3];
+            string sortMethod;
             RecommendAnime();
             void printAnimeInfo(Anime* anime);
             void printRecommendations(float normalizedEpisodes, float normalizedRating,
@@ -29,6 +30,7 @@ public:
             void swap(vector<Anime*> &vect, int i, int j);
             void quickSort(vector<Anime*> &vect, int low, int high);
             int partition(vector<Anime*> &vect, int low, int high);
+            int shellSort(vector<Anime*> &vect);
             void compare(vector<Anime*> &vect, float epWeight, float ratingWeight, float weight1);
 
 
