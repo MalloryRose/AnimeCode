@@ -93,9 +93,7 @@ RecommendAnime::printRecommendations(float normalizedEpisodes, float normalizedR
         ReadData::printAnimeInfo(recommendationList[i]);
     }
 
-
 }
-
 
 vector<Anime *> RecommendAnime::getAnimeWithSameGenre(vector<Anime *> inputtedAnimes,vector<string> inputtedGenres) {
 
@@ -221,7 +219,6 @@ int RecommendAnime::shellSort(vector<Anime *> &vect) {
         for (int i = gap; i < n; i += 1)
         {
             Anime* temp = vect[i];
-
             int j;
             for (j = i; j >= gap && vect[j - gap]->compareWeight > temp->compareWeight; j -= gap)
                 vect[j] = vect[j - gap];

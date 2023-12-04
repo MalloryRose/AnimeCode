@@ -58,7 +58,6 @@ int main() {
                  cout << "Unknown Anime" << endl;
              }
 
-
          }
 
 
