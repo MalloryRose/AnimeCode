@@ -7,7 +7,7 @@
 
 using namespace std;
 
-
+//To run the code, open run, and select edit configurations choose our repository as the working directory
 
 void menu(){
 
